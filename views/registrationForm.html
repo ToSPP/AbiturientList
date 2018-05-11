@@ -1,0 +1,139 @@
+<p><a href="../index.php">Список абитуриентов</a></p>
+<form action=
+      <?= isset($id) ? "../submit.php?id=$id" : "../submit.php" ?> 
+      method="POST">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">
+      Имя:
+    </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control <?=$errorClasses['name']?>" 
+               name="name" value="<?=$name?>">
+        <?php if(isset($errorMessage['name'])) : ?>
+        <p><?=$errorMessage['name']?></p>
+        <?php endif; ?>
+      </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">
+      Фамилия:
+    </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control <?=$errorClasses['surname']?>"
+               name="surname" value="<?=$surname?>">
+        <?php if(isset($errorMessage['surname'])) : ?>
+        <p><?=$errorMessage['surname']?></p>
+        <?php endif; ?>
+      </div>
+  </div>
+    <fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">
+          Пол:
+      </legend>
+      <div class="col-sm-10 <?=$errorClasses['gender']?>">
+        <div class="form-check">
+          <input type="radio" name="gender" class="form-check-input"
+               <?php if ($gender === 'мужской') echo 'checked' ?>
+               value="мужской"> 
+           <label class="form-check-label">
+            <?=Abiturient::GENDER_MALE?>
+           </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" name="gender" class="form-check-input"
+                <?php if ($gender === 'женский') echo 'checked' ?>
+                value="женский"> 
+          <label class="form-check-label">     
+           <?=Abiturient::GENDER_FEMALE?>
+          </label>
+        </div>
+        <?php if(isset($errorMessage['gender'])) : ?>
+        <p><?=$errorMessage['gender']?></p>
+        <?php endif; ?>                  
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">
+        Группа:
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control <?=$errorClasses['groupNumber']?>"
+             name="groupNumber" value="<?=$groupNumber?>">
+        <?php if(isset($errorMessage['groupNumber'])) : ?>
+        <p><?=$errorMessage['groupNumber']?></p>
+        <?php endif; ?>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">
+        E-mail:
+    </label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control <?=$errorClasses['email']?>"
+             name="email" value="<?=$email?>">
+        <?php if(isset($errorMessage['email'])) : ?>
+        <p><?=$errorMessage['email']?></p>
+        <?php endif; ?>            
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">
+        Количество баллов ЕГЭ:
+    </label>
+    <div class="col-sm-10">
+      <input type="number" min="0" max="300" 
+             class="form-control <?=$errorClasses['sumUSE']?>"
+             name="sumUSE" value="<?=$sumUSE?>">
+        <?php if(isset($errorMessage['sumUSE'])) : ?>
+        <p><?=$errorMessage['sumUSE']?></p>
+        <?php endif; ?>              
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">
+        Год рождения:
+    </label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control <?=$errorClasses['yearOfBirth']?>"
+             name="yearOfBirth" value="<?=$yearOfBirth?>">
+        <?php if(isset($errorMessage['yearOfBirth'])) : ?>
+        <p><?=$errorMessage['yearOfBirth']?></p>
+        <?php endif; ?>            
+    </div>
+  </div>
+  <fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">
+          Проживание:
+      </legend>
+      <div class="col-sm-10 <?=$errorClasses['location']?>">
+        <div class="form-check">
+          <input type="radio" name="location" class="form-check-input"
+               <?php if ($location === 'местный') echo 'checked' ?>
+               value="местный"> 
+           <label class="form-check-label">
+            <?=Abiturient::LOCATION_LOCAL?>
+           </label>
+        </div>
+        <div class="form-check">
+          <input type="radio" name="location" class="form-check-input"
+                <?php if ($location === 'иногородний') echo 'checked' ?>
+                value="иногородний"> 
+          <label class="form-check-label">     
+           <?=Abiturient::LOCATION_NON?>
+          </label>
+        </div>
+        <?php if(isset($errorMessage['location'])) : ?>
+        <p><?=$errorMessage['location']?></p>
+        <?php endif; ?>                  
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+  </div>
+</form>

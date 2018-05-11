@@ -1,0 +1,99 @@
+<div class="row align-items-center justify-content-between">
+    <div class="col-4">
+        <a href="index.php">Список абитуриентов</a>
+        <p><a href="cabinet.php">Добавить/изменить информацию о себе</a></p>
+    </div>
+    <div class="col-4">
+     <form class="form-inline" method="GET">
+        <div class="form-group mx-sm-3 mb-2">
+            <label class="sr-only" for="search">Поиск:</label>
+            <input type="search" class="form-control" name="q" id="search" 
+                   placeholder="Поиск" value="<?=rawurldecode($q)?>">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Найти</button>
+     </form>
+    </div>
+</div>
+<div class="list">
+    <?php if ($q): ?>
+    <p>Показаны только абитуриенты, найденные по запросу 
+        "<strong><?=rawurldecode($q)?></strong>".<br>
+        <a href="index.php">[Показать всех абитуриентов]</a></p>
+    <?php endif; ?>
+    <?php if ($result): ?>
+        <table class="table table-sm table-striped">            
+            <tr>
+                <th><a href="index.php?<?=rawurldecode(htmlspecialchars
+                       (Helper::sortLink('name'), ENT_QUOTES))?>">Имя</a>
+                <?php if ($sorting[0]) echo $arrow ?></th>
+                <th><a href="index.php?<?=rawurldecode(htmlspecialchars
+                       (Helper::sortLink('surname'), ENT_QUOTES))?>">Фамилия</a>
+                <?php if ($sorting[1]) echo $arrow ?></th>
+                <th><a href="index.php?<?=rawurldecode(htmlspecialchars
+                       (Helper::sortLink('groupNumber'), ENT_QUOTES))?>">Номер группы</a>
+                <?php if ($sorting[2]) echo $arrow ?></th>
+                <th>
+                <?php if (isset($_GET['sortBy']) && isset($_GET['dir'])): ?>
+                    <a href="index.php?<?=rawurldecode(htmlspecialchars
+                       (Helper::sortLink('sumUSE'), ENT_QUOTES))?>">
+                <?php else: ?>
+                    <a href="index.php?<?=rawurldecode(htmlspecialchars
+                       (Helper::sortLink('sumUSE', 1), ENT_QUOTES))?>">
+                <?php endif; ?>
+                    Баллов</a>
+                <?php if ($sorting[3]) echo $arrow ?></th>
+            </tr>         
+            <?php for ($n = $offset; $n < $limit; $n++): ?>
+                <?php if (isset($result[$n])): ?>
+                <tr>
+                    <td>
+                     <?= $q ? Helper::mb_str_replace($q, "<span 
+                      class='badge badge-success'>$q</span>", 
+                      htmlspecialchars($result[$n]['name'], ENT_QUOTES)) : 
+                      htmlspecialchars($result[$n]['name'], ENT_QUOTES)?>
+                    </td>
+                    <td>
+                     <?= $q ? Helper::mb_str_replace($q, "<span 
+                      class='badge badge-success'>$q</span>", 
+                      htmlspecialchars($result[$n]['surname'], ENT_QUOTES)) :
+                      htmlspecialchars($result[$n]['surname'], ENT_QUOTES)?>                          
+                    </td>
+                    <td>
+                     <?= $q ? Helper::mb_str_replace($q, "<span 
+                      class='badge badge-success'>$q</span>", 
+                      htmlspecialchars($result[$n]['groupNumber'], ENT_QUOTES)) :
+                      htmlspecialchars($result[$n]['groupNumber'], ENT_QUOTES)?>  
+                    </td>
+                    <td>
+                     <?= $q ? Helper::mb_str_replace($q, "<span 
+                      class='badge badge-success'>$q</span>", 
+                      htmlspecialchars($result[$n]['sumUSE'], ENT_QUOTES)) :
+                      htmlspecialchars($result[$n]['sumUSE'], ENT_QUOTES)?>  
+                    </td>
+                </tr>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </table>
+    <?php endif ?>
+</div>
+<?php if (count($result) > $abiturientPerPage): ?>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <?php for ($i = 1; $i <= ceil(count($result) / $abiturientPerPage); $i++): ?>
+      <li class="page-item
+          <?php
+             if (isset($_GET['page'])) {
+                if ($i === intval($_GET['page'])) {echo ' active';} 
+             } else if ($i === 1) {echo ' active';} 
+          ?>
+      ">
+        <a class="page-link" 
+           href="index.php?<?=htmlspecialchars(Helper::paginatorLink($i), 
+                ENT_QUOTES)?>">
+            <?=$i?>
+        </a>
+      </li>      
+    <?php endfor; ?>
+  </ul>
+</nav>
+<?php endif; ?>
